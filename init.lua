@@ -179,10 +179,10 @@ vim.keymap.set('n', 'N', 'Nzzzv')
 vim.keymap.set('i', '<C-c>', '<Esc>')
 
 -- Quick fix navigation
-vim.keymap.set('n', '<C-k>', '<cmd>cnext<CR>zz')
-vim.keymap.set('n', '<C-j>', '<cmd>cprev<CR>zz')
-vim.keymap.set('n', '<leader>k', '<cmd>lnext<CR>zz')
-vim.keymap.set('n', '<leader>j', '<cmd>lprev<CR>zz')
+vim.keymap.set('n', '<leader>cn', '<cmd>cnext<CR>zz')
+vim.keymap.set('n', '<leader>cp', '<cmd>cprev<CR>zz')
+vim.keymap.set('n', '<leader>ln', '<cmd>lnext<CR>zz')
+vim.keymap.set('n', '<leader>lp', '<cmd>lprev<CR>zz')
 
 -- Replace current selected word in all file
 
@@ -200,6 +200,13 @@ vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
 vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
 vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
 vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
+
+-- paste without losing the current work
+vim.keymap.set('x', '<leader>p', [["_dP]])
+
+-- yank into system clipboard. Currently the same but its ready in case I decide to separate them.
+vim.keymap.set({ 'n', 'v' }, '<leader>y', [["+y]])
+vim.keymap.set('n', '<leader>Y', [["+Y]])
 
 -- Keybinds to make split navigation easier.
 --  Use CTRL+<hjkl> to switch between windows
@@ -433,6 +440,7 @@ require('lazy').setup({
     'neovim/nvim-lspconfig',
     opts = {
       autoformat = true,
+      inlay_hints = { enabled = true },
     },
     dependencies = {
       -- Automatically install LSPs and related tools to stdpath for Neovim
@@ -894,7 +902,32 @@ require('lazy').setup({
       --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
     end,
   },
+  {
+    'folke/trouble.nvim',
+    config = function()
+      require('trouble').setup {
+        icons = false,
+      }
 
+      vim.keymap.set('n', '<leader>tt', function()
+        require('trouble').toggle()
+      end)
+
+      vim.keymap.set('n', '[t', function()
+        require('trouble').next { skip_groups = true, jump = true }
+      end)
+
+      vim.keymap.set('n', ']t', function()
+        require('trouble').previous { skip_groups = true, jump = true }
+      end)
+    end,
+  },
+  {
+    'mbbill/undotree',
+    config = function()
+      vim.keymap.set('n', '<leader>u', vim.cmd.UndotreeToggle)
+    end,
+  },
   -- The following two comments only work if you have downloaded the kickstart repo, not just copy pasted the
   -- init.lua. If you want these files, they are in the repository, so you can just download them and
   -- place them in the correct locations.
