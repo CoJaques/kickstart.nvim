@@ -691,6 +691,8 @@ require('lazy').setup({
         -- is found.
         javascript = { { 'prettierd', 'prettier' } },
         typescript = { { 'prettier' } },
+        json = { 'prettier' },
+        cs = { 'csharpier' },
         c = { 'clang-format' },
       },
     },
