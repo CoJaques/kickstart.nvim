@@ -164,11 +164,8 @@ vim.opt.rtp:prepend(lazypath)
 --
 -- NOTE: Here is where you install your plugins.
 
-vim.g.lsp_offset_encoding = 'utf-16'
-
 require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
-  'github/copilot.vim',
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
   {
     'iamcco/markdown-preview.nvim',
